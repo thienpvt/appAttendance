@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Student extends Model
 {
     use HasFactory;
+
+    public function attendanceDetails()
+    {
+        return $this->hasOne(Attendance_detail::class,'student_id');
+    }
 }

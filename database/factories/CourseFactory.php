@@ -14,7 +14,7 @@ class CourseFactory extends Factory
     public function definition()
     {
         return [
-            $this->faker
+            'name'=>$this->faker->name,
         ];
     }
 }
