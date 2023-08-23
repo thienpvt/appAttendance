@@ -8,8 +8,7 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-            <form action="{{route('api.lecturer.attendance')}}" method="post" id="form-submit">
-                @csrf
+
                 <div class="form-group col-lg-4">
                     Course
                     <select id="select-course-name" class="form-control" name="course_id">
@@ -51,8 +50,8 @@
                     </thead>
 
                 </table>
-                <button class="btn btn-primary">Update</button>
-            </form>
+
+
         </div>
     </div>
 @endsection
@@ -97,7 +96,7 @@
                 serverSide: true,
                 pageLength: 100,
                 ajax: {
-                    url:'{!! route('api.lecturer.api') !!}',
+                    url:'{!! route('api.lecturer.check_condition') !!}',
                     data: function ( d ) {
                         d.course_id = $('#select-course-name').val();
                         d.subject_id=$('#subject').val();
@@ -150,31 +149,31 @@
 
             });
         });
-        $('#form-submit').submit(function (e){
-            e.preventDefault();
-            $.ajax({
-                url: $('#form-submit').attr('action'),
-                type: 'POST',
-                data:$('#form-submit').serialize(),
-                success: function (response){
-                    if(response.success){
-                        $.toast({
-                            heading: 'Success',
-                            text: 'Attendance successful!',
-                            position: 'top-center',
-                            showHideTransition: 'slide',
-                            icon: 'success'
-                        })
-                    } else {
-                        $.toast({
-                            heading: 'Error',
-                            text: '',
-                            showHideTransition: 'fade',
-                            icon: 'error'
-                        })
-                    }
-                },
-            })
-        })
+        // $('#form-submit').submit(function (e){
+        //     e.preventDefault();
+        //     $.ajax({
+        //         url: $('#form-submit').attr('action'),
+        //         type: 'POST',
+        //         data:$('#form-submit').serialize(),
+        //         success: function (response){
+        //             if(response.success){
+        //                 $.toast({
+        //                     heading: 'Success',
+        //                     text: 'Attendance successful!',
+        //                     position: 'top-center',
+        //                     showHideTransition: 'slide',
+        //                     icon: 'success'
+        //                 })
+        //             } else {
+        //                 $.toast({
+        //                     heading: 'Error',
+        //                     text: '',
+        //                     showHideTransition: 'fade',
+        //                     icon: 'error'
+        //                 })
+        //             }
+        //         },
+        //     })
+        // })
     </script>
 @endpush

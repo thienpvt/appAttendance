@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-    Route::post('/api2',[LecturerController::class,'attendance'])->name('api.lecturer.attendance');
-    Route::get('/api',[StudentController::class,'api'])->name('api.lecturer.api');
+    Route::get('/api-index',[StudentController::class,'api'])->name('api.lecturer.api');
+    Route::post('/api-attendance',[LecturerController::class,'attendance'])->name('api.lecturer.attendance');
+    Route::get('/api-check-condition',[StudentController::class,'check_condition'])->name('api.lecturer.check_condition');
+
 
