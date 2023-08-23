@@ -26,6 +26,16 @@ class LecturerController extends Controller
             'subjects' => $subjects,
         ]);
     }
+    public function check_condition(){
+        $courses=Course::get();
+        $subjects=Subject::get();
+        $numWeeks=DB::table('attendances')->distinct('week')->count('week');
+        return view('lecturer.checkCondition',[
+            'courses' => $courses,
+            'subjects' => $subjects,
+            'numWeeks' => $numWeeks,
+        ]);
+    }
 
     public function attendance(Request $request)
     {
