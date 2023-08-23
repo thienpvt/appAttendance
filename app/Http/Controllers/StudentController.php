@@ -2,25 +2,66 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Attendance;
 use App\Models\Student;
 use App\Http\Requests\StoreStudentRequest;
 use App\Http\Requests\UpdateStudentRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\View;
+use Yajra\DataTables\DataTables;
+
 
 class StudentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    private object $model;
+    private string $table;
+
+    public function __construct()
+    {
+        $this->model = Student::query();
+        $this->table = (new Student())->getTable();
+
+        View::share('title', ucwords($this->table));
+        View::share('table', $this->table);
+    }
+
+    public function api(Request $request)
+    {
+        $course_id = $request->get('course_id');
+        $subject_id = $request->get('subject_id');
+        $week=$request->get('week');
+        $attendance=Attendance::query()
+            ->where('course_id',$course_id)
+            ->where('subject_id',$subject_id)
+            ->where('week',$week)
+            ->first();
+        if (isset($attendance)){
+            return DataTables::of($this->model->with('attendanceDetails')->where('course_id',$course_id))
+                ->addColumn('attendance_point',function($each){
+                    return $each->attendanceDetails->point;
+                })
+                ->make(true);
+        }
+        return DataTables::of($this->model->with('attendanceDetails')->where('course_id',$course_id))
+            ->addColumn('attendance_point',null)
+            ->make(true);
+    }
+    public function check_condition(Request $request)
+    {
+        $course_id = $request->get('course_id');
+        $subject_id = $request->get('subject_id');
+        $week=$request->get('week');
+        $numberWeek=DB::table('attendances')
+            ->distinct('week')
+            ->count('week')
+        ;
+        dd($numberWeek);
+    }
+
     public function index()
     {
         //
-    }
-
-    public function api()
-    {
-
     }
 
     /**
