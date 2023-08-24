@@ -127,6 +127,9 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/doctrine/deprecations" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/doctrine/event-manager" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/psr/cache" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/bensampo/laravel-enum" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/hanneskod/classtools" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/laminas/laminas-code" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

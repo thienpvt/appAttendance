@@ -5,11 +5,7 @@
     <title>Log In | Hyper - Responsive Bootstrap 4 Admin Dashboard</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
-    <meta content="Coderthemes" name="author" />
-    <!-- App favicon -->
-    <link rel="shortcut icon" href="assets/images/favicon.ico">
 
-    <!-- App css -->
     <link href="{{asset('css/icons.min.css')}}" rel="stylesheet" type="text/css"/>
     <link href="{{asset('css/app-creative.min.css')}}" rel="stylesheet" type="text/css" id="light-style"/>
 
@@ -45,7 +41,7 @@
                             </div>
 
                             <div class="form-group">
-                                <a href="pages-recoverpw.html" class="text-muted float-right"><small>Forgot your password?</small></a>
+
                                 <label for="password">Password</label>
                                 <div class="input-group input-group-merge">
                                     <input type="password" id="password" name="password" class="form-control" placeholder="Enter your password">
