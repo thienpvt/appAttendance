@@ -20,15 +20,12 @@ class StudentSeeder extends Seeder
         for($i = 1; $i <= 500; $i++) {
             $arr[] = [
                 'name' => $faker->name,
-                'sid' => $faker->numberBetween(2101100000,2101199999),
+                'sid' => $faker->unique()->numberBetween(2101100000,2101199999),
                 'birth_date' => $faker->dateTimeBetween('-30 years' ,'-18 years'),
                 'course_id' => $faker->numberBetween(1,10),
-
             ];
-
                 Student::insert($arr);
                 $arr = [];
-
         }
     }
 }

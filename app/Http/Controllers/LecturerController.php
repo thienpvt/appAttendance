@@ -48,12 +48,12 @@ class LecturerController extends Controller
             $attendance=Attendance::firstOrCreate([
                 'course_id' => $course_id,
                 'subject_id' => $subject_id,
-                'week' => $week,
             ]);
             foreach($attendances as $student_id => $point){
                 Attendance_detail::updateOrCreate([
                     'attendance_id'=>$attendance->id,
                     'student_id'=>$student_id,
+                    'week' => $week,
                 ],[
                     'point'=>$point,
                 ]);

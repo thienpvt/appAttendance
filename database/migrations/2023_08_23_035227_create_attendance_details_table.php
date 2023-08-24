@@ -17,7 +17,9 @@ class CreateAttendanceDetailsTable extends Migration
             $table->id();
             $table->foreignId('student_id')->constrained();
             $table->foreignId('attendance_id')->constrained();
-            $table->unique('student_id','attendance_id');
+            $table->integer('week')->unsigned();
+            $table->integer('point');
+            $table->unique(['student_id','attendance_id','week']);
         });
     }
 

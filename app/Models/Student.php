@@ -11,8 +11,16 @@ use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 class Student extends Model
 {
     use HasFactory;
-    public function totalPoints()
+    public function totalPoints(): HasMany
     {
         return $this->hasMany(Attendance_detail::class,'student_id');
+    }
+
+    public function point(): HasOne
+    {
+        return $this->hasOne(Attendance_detail::class,
+            'student_id',
+            'id',
+        );
     }
 }

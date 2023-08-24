@@ -8,50 +8,51 @@
 @section('content')
     <div class="card">
         <div class="card-body">
+            <div class="form-group col-lg-4">
+                Course
+                <select id="select-course-name" class="form-control" name="course_id">
+                    @foreach($courses as $course)
+                        <option value="{{$course->id}}"
+                                @if($loop->first)
+                                    checked
+                            @endif>
+                            {{$course->name}}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
 
-                <div class="form-group col-lg-4">
-                    Course
-                    <select id="select-course-name" class="form-control" name="course_id">
-                        @foreach($courses as $course)
-                            <option value="{{$course->id}}"
-                                    @if($loop->first)
-                                        checked
-                                @endif>
-                                {{$course->name}}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="form-group col-lg-4">
-                    Subject
-                    <select id="subject" class="form-control" name="subject_id">
-                        @foreach($subjects as $subject)
-                            <option value="{{ $subject->id }}">
-                                {{ $subject->name }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="form-group col-lg-4">
-                    Week
-                    <select id="week" class="form-control" name="week">
-                        @for($i = 1; $i <=15;$i++)
-                            <option value="{{ $i }}">{{ $i }}</option>
-                        @endfor
-                    </select>
-                </div>
-                <table class="table table-centered " id="table-index">
-                    <thead>
-                    <th>#</th>
-                    <th>Student ID</th>
-                    <th>Name</th>
-                    <th>Date or birth</th>
-                    <th>Attendance</th>
-                    </thead>
+            <div class="form-group col-lg-4">
+                Subject
+                <select id="subject" class="form-control" name="subject_id">
+                    @foreach($subjects as $subject)
+                        <option value="{{ $subject->id }}">
+                            {{ $subject->name }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="form-group col-lg-4">
+                Week
+                <select id="week" class="form-control" name="week">
+                    @for($i = 1; $i <=15;$i++)
+                        <option value="{{ $i }}">{{ $i }}</option>
+                    @endfor
+                </select>
+            </div>
+{{--            <div class="form-group col-lg-4">--}}
+{{--                Number of weeks: {{$numWeeks}}--}}
+{{--            </div>--}}
 
-                </table>
-
-
+            <table class="table table-centered " id="table-index">
+                <thead>
+                <th>#</th>
+                <th>Student ID</th>
+                <th>Name</th>
+                <th>Date or birth</th>
+                <th>Attendance</th>
+                </thead>
+            </table>
         </div>
     </div>
 @endsection
@@ -63,7 +64,7 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
         $(function () {
-            $('#select-course-name,#subject,#week').change(function (){
+            $('#select-course-name,#subject,#week').change(function () {
                 table.draw();
             });
             var buttonCommon = {
@@ -71,36 +72,36 @@
                     columns: ':visible :not(.not-export)'
                 }
             };
-            var table=$('#table-index').DataTable({
+            var table = $('#table-index').DataTable({
                 dom: 'Blfrtip',
-                select:false,
+                select: false,
                 buttons: [
-                    $.extend( true, {}, buttonCommon, {
+                    $.extend(true, {}, buttonCommon, {
                         extend: 'copyHtml5'
-                    } ),
-                    $.extend( true, {}, buttonCommon, {
+                    }),
+                    $.extend(true, {}, buttonCommon, {
                         extend: 'excelHtml5'
-                    } ),
-                    $.extend( true, {}, buttonCommon, {
+                    }),
+                    $.extend(true, {}, buttonCommon, {
                         extend: 'pdfHtml5'
-                    } ),
-                    $.extend( true, {}, buttonCommon, {
+                    }),
+                    $.extend(true, {}, buttonCommon, {
                         extend: 'print'
-                    } ),
-                    $.extend( true, {}, buttonCommon, {
+                    }),
+                    $.extend(true, {}, buttonCommon, {
                         extend: 'csvHtml5'
-                    } ),
+                    }),
                     'colvis'
                 ],
                 processing: true,
                 serverSide: true,
                 pageLength: 100,
                 ajax: {
-                    url:'{!! route('api.lecturer.check_condition') !!}',
-                    data: function ( d ) {
+                    url: '{!! route('api.lecturer.check_condition') !!}',
+                    data: function (d) {
                         d.course_id = $('#select-course-name').val();
-                        d.subject_id=$('#subject').val();
-                        d.week=$('#week').val();
+                        d.subject_id = $('#subject').val();
+                        d.week = $('#week').val();
                     }
                 },
 
@@ -108,34 +109,35 @@
                     {data: 'id', name: 'id'},
                     {data: 'sid', name: 'sid'},
                     {data: 'name', name: 'name'},
-                    {data: 'birth_date', name: 'birth_date'},
-                    {data: 'attendance_point',
-                        targets: 4,
-                        orderable: false,
-                        searchable: false,
-                        render: function (data, type, row, meta){
-                            if(data===null){
-                                return `<label><input type="radio" name="attendances[${row['id']}]" value="3" checked> Attend</label>
-                                        <label><input type="radio" name="attendances[${row['id']}]" value="2">Late</label>
-                                        <label><input type="radio" name="attendances[${row['id']}]" value="1">Absent</label> `;
-                            }
-                            if(data===3){
-                                return `<label><input type="radio" name="attendances[${row['id']}]" value="3" checked> Attend</label>
-                                        <label><input type="radio" name="attendances[${row['id']}]" value="2">Late</label>
-                                        <label><input type="radio" name="attendances[${row['id']}]" value="1">Absent</label> `
-                            }
-                            if(data===2){
-                                return `<label><input type="radio" name="attendances[${row['id']}]" value="3" > Attend</label>
-                                        <label><input type="radio" name="attendances[${row['id']}]" value="2" checked>Late</label>
-                                        <label><input type="radio" name="attendances[${row['id']}]" value="1">Absent</label> `
-                            }
-                            if(data===1){
-                                return `<label><input type="radio" name="attendances[${row['id']}]" value="3" > Attend</label>
-                                        <label><input type="radio" name="attendances[${row['id']}]" value="2">Late</label>
-                                        <label><input type="radio" name="attendances[${row['id']}]" value="1" checked>Absent</label> `
-                            }
-                        }
-                    },
+                    // {data: 'birth_date', name: 'birth_date'},
+                    // {
+                    //     data: 'attendance_point',
+                    //     targets: 4,
+                    //     orderable: false,
+                    //     searchable: false,
+                    //     render: function (data, type, row, meta) {
+                    //         if (data === null) {
+                    //             return `<label><input type="radio" name="attendances[${row['id']}]" value="3" checked> Attend</label>
+                    //                     <label><input type="radio" name="attendances[${row['id']}]" value="2">Late</label>
+                    //                     <label><input type="radio" name="attendances[${row['id']}]" value="1">Absent</label> `;
+                    //         }
+                    //         if (data === 3) {
+                    //             return `<label><input type="radio" name="attendances[${row['id']}]" value="3" checked> Attend</label>
+                    //                     <label><input type="radio" name="attendances[${row['id']}]" value="2">Late</label>
+                    //                     <label><input type="radio" name="attendances[${row['id']}]" value="1">Absent</label> `
+                    //         }
+                    //         if (data === 2) {
+                    //             return `<label><input type="radio" name="attendances[${row['id']}]" value="3" > Attend</label>
+                    //                     <label><input type="radio" name="attendances[${row['id']}]" value="2" checked>Late</label>
+                    //                     <label><input type="radio" name="attendances[${row['id']}]" value="1">Absent</label> `
+                    //         }
+                    //         if (data === 1) {
+                    //             return `<label><input type="radio" name="attendances[${row['id']}]" value="3" > Attend</label>
+                    //                     <label><input type="radio" name="attendances[${row['id']}]" value="2">Late</label>
+                    //                     <label><input type="radio" name="attendances[${row['id']}]" value="1" checked>Absent</label> `
+                    //         }
+                    //     }
+                    // },
 
                 ],
                 // columnDefs: [ {

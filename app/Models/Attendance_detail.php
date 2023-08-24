@@ -13,5 +13,6 @@ class Attendance_detail extends Model
         'attendance_id',
         'student_id',
         'point',
+        'week',
     ];
 }

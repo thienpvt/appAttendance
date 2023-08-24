@@ -17,8 +17,7 @@ class CreateAttendancesTable extends Migration
             $table->id();
             $table->foreignId('course_id')->constrained();
             $table->foreignId('subject_id')->constrained();
-            $table->integer('week');
-            $table->unique('course_id','subject_id','week');
+            $table->unique('course_id','subject_id');
         });
     }
 
