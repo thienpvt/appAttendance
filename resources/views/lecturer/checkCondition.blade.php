@@ -32,17 +32,10 @@
                     @endforeach
                 </select>
             </div>
+
             <div class="form-group col-lg-4">
-                Week
-                <select id="week" class="form-control" name="week">
-                    @for($i = 1; $i <=15;$i++)
-                        <option value="{{ $i }}">{{ $i }}</option>
-                    @endfor
-                </select>
+                Number of weeks: <span id="weeks"></span>
             </div>
-{{--            <div class="form-group col-lg-4">--}}
-{{--                Number of weeks: {{$numWeeks}}--}}
-{{--            </div>--}}
 
             <table class="table table-centered " id="table-index">
                 <thead>
@@ -50,7 +43,8 @@
                 <th>Student ID</th>
                 <th>Name</th>
                 <th>Date or birth</th>
-                <th>Attendance</th>
+                <th>Points</th>
+                <th>Eligibility</th>
                 </thead>
             </table>
         </div>
@@ -63,8 +57,21 @@
             src="https://cdn.datatables.net/v/dt/jszip-3.10.1/dt-1.13.6/b-2.4.1/b-colvis-2.4.1/b-html5-2.4.1/b-print-2.4.1/fc-4.3.0/fh-3.4.0/r-2.5.0/rg-1.4.0/sc-2.2.0/sb-1.5.0/sl-1.7.0/datatables.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
+
+
         $(function () {
-            $('#select-course-name,#subject,#week').change(function () {
+            $('#select-course-name,#subject').change(function () {
+                $.ajax({
+                    url: '{{ route('api.lecturer.getNumWeeks') }}',
+                    type: 'post',
+                    data:{
+                        course_id : $('#select-course-name').val(),
+                        subject_id : $('#subject').val()
+                    },
+                    success: function (response) {
+                        document.getElementById('weeks').innerHTML=response.data;
+                    }
+                });
                 table.draw();
             });
             var buttonCommon = {
@@ -101,81 +108,40 @@
                     data: function (d) {
                         d.course_id = $('#select-course-name').val();
                         d.subject_id = $('#subject').val();
-                        d.week = $('#week').val();
-                    }
-                },
+                    },
 
+                },
                 columns: [
                     {data: 'id', name: 'id'},
                     {data: 'sid', name: 'sid'},
                     {data: 'name', name: 'name'},
-                    // {data: 'birth_date', name: 'birth_date'},
-                    // {
-                    //     data: 'attendance_point',
-                    //     targets: 4,
-                    //     orderable: false,
-                    //     searchable: false,
-                    //     render: function (data, type, row, meta) {
-                    //         if (data === null) {
-                    //             return `<label><input type="radio" name="attendances[${row['id']}]" value="3" checked> Attend</label>
-                    //                     <label><input type="radio" name="attendances[${row['id']}]" value="2">Late</label>
-                    //                     <label><input type="radio" name="attendances[${row['id']}]" value="1">Absent</label> `;
-                    //         }
-                    //         if (data === 3) {
-                    //             return `<label><input type="radio" name="attendances[${row['id']}]" value="3" checked> Attend</label>
-                    //                     <label><input type="radio" name="attendances[${row['id']}]" value="2">Late</label>
-                    //                     <label><input type="radio" name="attendances[${row['id']}]" value="1">Absent</label> `
-                    //         }
-                    //         if (data === 2) {
-                    //             return `<label><input type="radio" name="attendances[${row['id']}]" value="3" > Attend</label>
-                    //                     <label><input type="radio" name="attendances[${row['id']}]" value="2" checked>Late</label>
-                    //                     <label><input type="radio" name="attendances[${row['id']}]" value="1">Absent</label> `
-                    //         }
-                    //         if (data === 1) {
-                    //             return `<label><input type="radio" name="attendances[${row['id']}]" value="3" > Attend</label>
-                    //                     <label><input type="radio" name="attendances[${row['id']}]" value="2">Late</label>
-                    //                     <label><input type="radio" name="attendances[${row['id']}]" value="1" checked>Absent</label> `
-                    //         }
-                    //     }
-                    // },
-
+                    {data: 'birth_date', name: 'birth_date'},
+                    {
+                        data: 'totalPoints',
+                        targets: 4,
+                        orderable: false,
+                        searchable: false,
+                        render: function (data, type, row, meta) {
+                            return `${data}/45`
+                        }
+                    },
+                    {
+                        data: 'totalPoints',
+                        targets: 5,
+                        orderable: false,
+                        searchable: false,
+                        render: function (data, type, row, meta) {
+                            if (data>=36) return `<span class="btn btn-primary">Pass</span>`
+                            return `<span class="btn btn-danger">Fail</span>`
+                        }
+                    },
                 ],
-                // columnDefs: [ {
-                //     targets: 5,
-                //     data: null, // Use the full data source object for the renderer's source
-                //     render: function (){
-                //         let student_id=(table.row['id']);
-                //         console.log(student_id);
-                //     }
-                // } ],
 
             });
+
         });
-        // $('#form-submit').submit(function (e){
-        //     e.preventDefault();
-        //     $.ajax({
-        //         url: $('#form-submit').attr('action'),
-        //         type: 'POST',
-        //         data:$('#form-submit').serialize(),
-        //         success: function (response){
-        //             if(response.success){
-        //                 $.toast({
-        //                     heading: 'Success',
-        //                     text: 'Attendance successful!',
-        //                     position: 'top-center',
-        //                     showHideTransition: 'slide',
-        //                     icon: 'success'
-        //                 })
-        //             } else {
-        //                 $.toast({
-        //                     heading: 'Error',
-        //                     text: '',
-        //                     showHideTransition: 'fade',
-        //                     icon: 'error'
-        //                 })
-        //             }
-        //         },
-        //     })
-        // })
+
+
+
     </script>
 @endpush

@@ -37,14 +37,14 @@ class StudentController extends Controller
             ->where('subject_id',$subject_id)
             ->first();
         if (isset($attendance)){
-            return DataTables::of($this->model->where('course_id',$course_id))
+            return DataTables::of($this->model->with('totalPoints')->where('course_id',$course_id))
                 ->addColumn('attendance_point',function($each) use ($attendance,$week){
-                    $attendance_detail=Attendance_detail::query()->get()
+                    $point=
+                        $each->totalPoints
                         ->where('attendance_id','=',$attendance->id)
-                        ->where('student_id','=',$each->id)
                         ->where('week',$week)
                         ->first();
-                    if (isset($attendance_detail)) return $attendance_detail->point;
+                    if (isset($point)) return $point->point;
                     return null;
                 })
                 ->make(true);
@@ -58,33 +58,30 @@ class StudentController extends Controller
     {
         $course_id = $request->get('course_id');
         $subject_id = $request->get('subject_id');
-        $week=$request->get('week');
 
         $attendance=Attendance::query()
             ->where('course_id',$course_id)
             ->where('subject_id',$subject_id)
-            ->get('id')
+            ->first()
         ;
-        $numWeeks=DB::table('attendance_details')
-            ->distinct('week')
-        ->where('attendance_id',$attendance);
+
         if (isset($attendance)){
-            return DataTables::of($this->model->with('point')->where('course_id',$course_id))
+            $numWeeks=DB::table('attendance_details')
+                ->where('attendance_id',$attendance->id)
+                ->distinct('week')
+                ->count('week');
+            return DataTables::of($this->model->with('totalPoints')->where('course_id',$course_id))
                 ->with('num_weeks',$numWeeks)
-                ->addColumn('totalPoint',function ($each)use ($attendance){
-                    return Attendance_detail::query()
-                        ->sum('point')
-                        ->where('attendance_id',$attendance)
-                        ->where('student_id',$each->id);
-                })
-                ->addColumn('idas',function ($each){
-                    return $each->point;
+                ->addColumn('totalPoints',function ($each)use ($attendance){
+                    return $each->totalPoints
+                        ->where('attendance_id','=',$attendance->id)
+                        ->sum('point');
                 })
                 ->make(true)
                 ;
         }
-        return DataTables::of($this->model->with('totalPoints')->where('course_id',$course_id))
-            ->addColumn('totalPoints',null)
+        return DataTables::of($this->model->where('course_id',$course_id))
+            ->addColumn('totalPoints',0)
             ->make(true)
             ;
     }

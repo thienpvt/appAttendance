@@ -6,5 +6,6 @@
 
     Route::get('/',[LecturerController::class,'index']);
     Route::get('/check-condition',[LecturerController::class,'check_condition']);
+    Route::get('/test',[LecturerController::class,'numWeeks']);
 
 

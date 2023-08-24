@@ -139,16 +139,10 @@
                     },
 
                 ],
-                // columnDefs: [ {
-                //     targets: 5,
-                //     data: null, // Use the full data source object for the renderer's source
-                //     render: function (){
-                //         let student_id=(table.row['id']);
-                //         console.log(student_id);
-                //     }
-                // } ],
+
 
             });
+
         });
         $('#form-submit').submit(function (e){
             e.preventDefault();

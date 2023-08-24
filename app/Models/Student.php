@@ -19,8 +19,7 @@ class Student extends Model
     public function point(): HasOne
     {
         return $this->hasOne(Attendance_detail::class,
-            'student_id',
-            'id',
-        );
+            ['student_id','attendance_id'])
+        ;
     }
 }

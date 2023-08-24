@@ -29,7 +29,7 @@ class LecturerController extends Controller
     public function check_condition(){
         $courses=Course::get();
         $subjects=Subject::get();
-        $numWeeks=DB::table('attendances')->distinct('week')->count('week');
+        $numWeeks=Attendance_detail::query()->where('attendance_id',1)->distinct('week')->count('week');
         return view('lecturer.checkCondition',[
             'courses' => $courses,
             'subjects' => $subjects,
@@ -64,5 +64,23 @@ class LecturerController extends Controller
             DB::rollBack();
             return $this->errorResponse($e->getMessage());
         }
+    }
+
+    public function numWeeks(Request $request)
+    {
+        $course_id = $request->get('course_id');
+        $subject_id = $request->get('subject_id');
+        $attendance=Attendance::query()
+            ->where('course_id',$course_id)
+            ->where('subject_id',$subject_id)
+            ->first()
+        ;
+        if(isset($attendance)) {
+            return $this->successResponse((Attendance_detail::query()
+                ->where('attendance_id', $attendance->id)
+                ->distinct('week')
+                ->count('week')));
+        }
+        return $this->successResponse(0);
     }
 }

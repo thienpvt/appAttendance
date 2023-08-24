@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 */
     Route::get('/api-index',[StudentController::class,'api'])->name('api.lecturer.api');
     Route::post('/api-attendance',[LecturerController::class,'attendance'])->name('api.lecturer.attendance');
+    Route::post('/api-get-num-weeks',[LecturerController::class,'numWeeks'])->name('api.lecturer.getNumWeeks');
     Route::get('/api-check-condition',[StudentController::class,'check_condition'])->name('api.lecturer.check_condition');
 
 
