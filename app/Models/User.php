@@ -17,4 +17,8 @@ class User extends Model implements AuthenticatableContract
     use SoftDeletes;
     use HasFactory;
 
+    protected $fillable=[
+        'email',
+        'password',
+    ];
 }

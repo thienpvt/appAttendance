@@ -11,13 +11,14 @@ use BenSampo\Enum\Enum;
  */
 final class UserRoleEnum extends Enum
 {
-    public const LECTURER =   0;
-    public const ADMIN =   1;
-    public static function getRolesForRegister(): array
+    public const lecturer =   0;
+    public const admin =   1;
+
+    public static function getRole(): array
     {
         return [
-            'lecturer' => self::LECTURER,
-            'admin'        => self::ADMIN,
+            'admin' =>self::admin,
+            'lecturer' =>self::lecturer,
         ];
     }
 

@@ -33,7 +33,7 @@
                             <p class="text-muted mb-4">Enter your email address and password to access admin panel.</p>
                         </div>
 
-                        <form action="" method="post">
+                        <form action="{{route('processLogin')}}" method="post">
                             @csrf
                             <div class="form-group">
                                 <label for="email">Email address</label>
@@ -70,7 +70,7 @@
                 <!-- end card -->
                 <div class="row mt-3">
                     <div class="col-12 text-center">
-                        <p class="text-muted">Don't have an account? <a href="" class="text-muted ml-1"><b>Sign Up</b></a></p>
+                        <p class="text-muted">Don't have an account? <a href="{{route('register')}}" class="text-muted ml-1"><b>Sign Up</b></a></p>
                     </div> <!-- end col -->
                 </div>
                 <!-- end row -->
