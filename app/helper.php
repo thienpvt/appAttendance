@@ -23,3 +23,9 @@
             return user() && user()->level === UserRoleEnum::lecturer;
         }
     }
+    if (!function_exists('getRole')) {
+        function getRole(): string
+        {
+            return array_search(user()->level, UserRoleEnum::getRole(), true);
+        }
+    }

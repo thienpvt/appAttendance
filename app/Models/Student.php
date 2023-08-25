@@ -4,9 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
 class Student extends Model
 {
@@ -16,10 +15,8 @@ class Student extends Model
         return $this->hasMany(Attendance_detail::class,'student_id');
     }
 
-    public function point(): HasOne
+    public function course(): BelongsTo
     {
-        return $this->hasOne(Attendance_detail::class,
-            ['student_id','attendance_id'])
-        ;
+        return $this->belongsTo(Course::class);
     }
 }

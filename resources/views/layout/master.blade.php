@@ -8,17 +8,12 @@
     <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description"/>
     <meta content="Coderthemes" name="author"/>
     <!-- App favicon -->
-    <link rel="shortcut icon" href="assets/images/favicon.ico">
+    <link rel="shortcut icon" href="{{asset('images/favicon.ico')}}">
 
-    <!-- third party css -->
-
-    <!-- third party css end -->
-
-    <!-- App css -->
 
     <link href="{{asset('css/icons.min.css')}}" rel="stylesheet" type="text/css"/>
     <link href="{{asset('css/app-creative.min.css')}}" rel="stylesheet" type="text/css" id="light-style"/>
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}"/>
+
     @stack('css')
 </head>
 
@@ -56,26 +51,18 @@
                 </div>
             </div>
             <!-- container -->
-
         </div>
         <!-- content -->
-
         <!-- Footer Start -->
         @include('layout.footer')
         <!-- end Footer -->
-
     </div>
 
     <!-- ============================================================== -->
     <!-- End Page content -->
     <!-- ============================================================== -->
-
-
 </div>
 <!-- END wrapper -->
-
-
-
 <!-- bundle -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <script src="{{asset('js/vendor.min.js')}}"></script>

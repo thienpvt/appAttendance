@@ -23,7 +23,6 @@ class StudentController extends Controller
     {
         $this->model = Student::query();
         $this->table = (new Student())->getTable();
-
         View::share('title', ucwords($this->table));
         View::share('table', $this->table);
     }
@@ -84,6 +83,13 @@ class StudentController extends Controller
             ->addColumn('totalPoints',0)
             ->make(true)
             ;
+    }
+
+    public function api_get_student(Request $request)
+    {
+        return Student::query()
+            ->where('id',$request->get('id'))
+            ->first();
     }
 
     public function index()

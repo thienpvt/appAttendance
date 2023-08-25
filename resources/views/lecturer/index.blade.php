@@ -75,26 +75,26 @@
                 }
             };
             var table=$('#table-index').DataTable({
-                dom: 'Blfrtip',
+                // dom: 'Blfrtip',
                 select:false,
-                buttons: [
-                    $.extend( true, {}, buttonCommon, {
-                        extend: 'copyHtml5'
-                    } ),
-                    $.extend( true, {}, buttonCommon, {
-                        extend: 'excelHtml5'
-                    } ),
-                    $.extend( true, {}, buttonCommon, {
-                        extend: 'pdfHtml5'
-                    } ),
-                    $.extend( true, {}, buttonCommon, {
-                        extend: 'print'
-                    } ),
-                    $.extend( true, {}, buttonCommon, {
-                        extend: 'csvHtml5'
-                    } ),
-                    'colvis'
-                ],
+                // buttons: [
+                //     $.extend( true, {}, buttonCommon, {
+                //         extend: 'copyHtml5'
+                //     } ),
+                //     $.extend( true, {}, buttonCommon, {
+                //         extend: 'excelHtml5'
+                //     } ),
+                //     $.extend( true, {}, buttonCommon, {
+                //         extend: 'pdfHtml5'
+                //     } ),
+                //     $.extend( true, {}, buttonCommon, {
+                //         extend: 'print'
+                //     } ),
+                //     $.extend( true, {}, buttonCommon, {
+                //         extend: 'csvHtml5'
+                //     } ),
+                //     'colvis'
+                // ],
                 processing: true,
                 serverSide: true,
                 pageLength: 100,
@@ -117,15 +117,10 @@
                         orderable: false,
                         searchable: false,
                         render: function (data, type, row, meta){
-                            if(data===null){
+                            if(data===null||data===3){
                                 return `<label><input type="radio" name="attendances[${row['id']}]" value="3" checked> Attend</label>
                                         <label><input type="radio" name="attendances[${row['id']}]" value="2">Late</label>
                                         <label><input type="radio" name="attendances[${row['id']}]" value="1">Absent</label> `;
-                            }
-                            if(data===3){
-                                return `<label><input type="radio" name="attendances[${row['id']}]" value="3" checked> Attend</label>
-                                        <label><input type="radio" name="attendances[${row['id']}]" value="2">Late</label>
-                                        <label><input type="radio" name="attendances[${row['id']}]" value="1">Absent</label> `
                             }
                             if(data===2){
                                 return `<label><input type="radio" name="attendances[${row['id']}]" value="3" > Attend</label>

@@ -1,27 +1,18 @@
 <div class="left-side-menu">
 
     <!-- LOGO -->
-    <a href="index.html" class="logo text-center logo-light">
+    <a href="{{route(getRole().'.index')}}" class="logo text-center logo-light">
                     <span class="logo-lg">
-                        <img src="assets/images/logo.png" alt="" height="16">
+                        <img src="{{asset('images/logo.png')}}" alt="" height="16">
                     </span>
         <span class="logo-sm">
-                        <img src="assets/images/logo_sm.png" alt="" height="16">
+                        <img src="{{asset('images/logo_sm.png')}}" alt="" height="16">
                     </span>
     </a>
 
-    <!-- LOGO -->
-    <a href="index.html" class="logo text-center logo-dark">
-                    <span class="logo-lg">
-                        <img src="assets/images/logo-dark.png" alt="" height="16">
-                    </span>
-        <span class="logo-sm">
-                        <img src="assets/images/logo_sm_dark.png" alt="" height="16">
-                    </span>
-    </a>
+    <!-- LOGO -
 
     <div class="h-100" id="left-side-menu-container" data-simplebar>
-
         <!--- Sidemenu -->
         <ul class="metismenu side-nav">
 
@@ -601,7 +592,7 @@
             <a href="javascript: void(0);" class="float-right close-btn text-white">
                 <i class="mdi mdi-close"></i>
             </a>
-            <img src="assets/images/help-icon.svg" height="90" alt="Helper Icon Image"/>
+            <img src="{{asset('images/help-icon.svg')}}" height="90" alt="Helper Icon Image"/>
             <h5 class="mt-3">Unlimited Access</h5>
             <p class="mb-3">Upgrade to plan to get access to unlimited reports</p>
             <a href="javascript: void(0);" class="btn btn-outline-light btn-sm">Upgrade</a>

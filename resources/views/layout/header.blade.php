@@ -7,8 +7,8 @@
                role="button" aria-haspopup="false"
                aria-expanded="false">
                 <span>
-                    <span class="account-user-name">Dominic Keller</span>
-                    <span class="account-position">arr</span>
+                    <span class="account-user-name">{{user()->email}}</span>
+                    <span class="account-position">{{getRole()}}</span>
                 </span>
             </a>
             <div

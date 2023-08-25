@@ -5,14 +5,34 @@ namespace App\Http\Controllers;
 use App\Models\Course;
 use App\Http\Requests\StoreCourseRequest;
 use App\Http\Requests\UpdateCourseRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\View;
 
 class CourseController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
+    private object $model;
+
+    public function __construct()
+    {
+        $this->model = (new Course())->query();
+        $routeName   = Route::currentRouteName();
+        $arr         = explode('.', $routeName);
+        $arr         = array_map('ucfirst', $arr);
+        $title       = implode(' - ', $arr);
+
+        View::share('title', $title);
+    }
+    public function api_get_course(Request $request)
+    {
+        return $this->model
+            ->where('name', 'like', '%' . $request->get('q') . '%')
+            ->get([
+                'id',
+                'name',
+            ]);
+    }
     public function index()
     {
         //
