@@ -11,11 +11,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
 use Yajra\DataTables\DataTables;
-use function MongoDB\BSON\toJSON;
 
 
 class StudentController extends Controller
 {
+    use ResponseTrait;
     private object $model;
     private string $table;
 
@@ -85,11 +85,11 @@ class StudentController extends Controller
             ;
     }
 
-    public function api_get_student(Request $request)
+    public function api_get_student($request)
     {
-        return Student::query()
-            ->where('id',$request->get('id'))
-            ->first();
+        return $this->successResponse($this->model->with('course')
+            ->where('id',$request)
+            ->first());
     }
 
     public function index()

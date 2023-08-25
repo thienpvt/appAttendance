@@ -37,20 +37,50 @@
 
     <!-- Standard modal -->
 
-    <div id="standard-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel" aria-hidden="true">
+    <div id="standard-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="standard-modalLabel"
+         aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="standard-modalLabel">Modal Heading</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                </div>
-                <div class="modal-body">
-                    ...
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-success">Save changes</button>
-                </div>
+                <form action="{{route('admin.student.update')}}" method="post">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="standard-modalLabel">Modal Heading</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    </div>
+                    <div class="modal-body">
+
+                        @csrf
+                        <input type="hidden" id="id" name="id">
+                        <div class="form-group">
+                            <label for="sid">SID</label>
+                            <input type="number" id="sid" name="sid" class="form-control" readonly>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" name="name" class="form-control">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="birth_date">Birth-date</label>
+                            <input type="text" id="birth_date" name="birth_date" class="form-control"
+                                   data-provide="datepicker" data-date-format="yyyy-mm-dd">
+                        </div>
+                        <div class="form-group">
+                            <label for="current_course">Current Course</label>
+                            <input type="text" id="current_course_name" class="form-control" readonly>
+                            <input type="hidden" id="current_course_id" name="cur_course_id" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="select-course-name2">Select new course of not</label>
+                            <select id="select-course-name2" name="new_course_id" class="form-control"></select>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-success">Save changes</button>
+                    </div>
+                </form>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
@@ -63,7 +93,7 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
         $(function () {
-            $("#select-course-name").select2({
+            $("#select-course-name,#select-course-name2").select2({
                 ajax: {
                     url: "{{ route('api.admin.get_course') }}",
                     method: "post",
@@ -84,7 +114,7 @@
                         };
                     }
                 },
-                placeholder: 'Search for a name',
+                placeholder: 'Search for course name',
                 allowClear: true
             });
 
@@ -139,9 +169,9 @@
                             return `
                             <form action="${data}" method="post">
                                 @csrf
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#standard-modal">Edit</button>
-                            </form>
-                        `;
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#standard-modal">Edit</button>
+                        </form>
+`;
                         }
                     },
                     {
@@ -167,6 +197,8 @@
         });
 
         $(document).on('click', '.btn-delete, .btn-success', function () {
+            console.log('1');
+            $('#select-course-name2').remove();
             let form = $(this).parents('form');
             $.ajax({
                 url: form.attr('action'),
@@ -193,33 +225,29 @@
                 }
             });
         });
-        $(document).on('click', '.btn-primary',function (){
+
+        $(document).on('click', '.btn-primary', function () {
             let form = $(this).parents('form');
             $.ajax({
                 url: form.attr('action'),
                 type: 'POST',
                 dataType: 'json',
                 data: form.serialize(),
-                success: function () {
-                    $.toast({
-                        heading: 'Success',
-                        text: 'Delete successful!',
-                        position: 'top-center',
-                        showHideTransition: 'slide',
-                        icon: 'success'
-                    })
-                    table.draw();
+                success: function (response) {
+                    $('#id').val(response.data.id);
+                    $('#sid').val(response.data.sid);
+                    $('#name').val(response.data.name);
+                    $('#birth_date').val(response.data.birth_date);
+                    $('#current_course_name').val(response.data.course.name);
+                    $('#current_course_id').val(response.data.course.id);
                 },
                 error: function () {
-                    $.toast({
-                        heading: 'Error',
-                        text: 'Delete failed!',
-                        showHideTransition: 'fade',
-                        icon: 'error'
-                    })
                 }
             });
+
         });
+
+
         // $('#form-submit').submit(function (e){
         //     e.preventDefault();
         //     $.ajax({

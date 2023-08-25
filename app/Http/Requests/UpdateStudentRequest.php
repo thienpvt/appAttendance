@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Student;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateStudentRequest extends FormRequest
 {
@@ -24,7 +26,25 @@ class UpdateStudentRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'id'=>[
+                'required',
+                'integer',
+                Rule::unique(Student::class)->ignore($this->student)
+            ],
+            'sid'=>[
+                'required',
+                'integer',
+                Rule::unique(Student::class)->ignore($this->student)
+            ],
+            'name'=>[
+                'required',
+                'string',
+                Rule::unique(Student::class)->ignore($this->student)
+            ],
+            'birth_date'=>[
+                'required',
+                'date',
+            ],
         ];
     }
 }

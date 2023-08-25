@@ -20,6 +20,7 @@
         Route::delete('/{user}', [LecturerController::class, 'destroy'])->name('destroy');
     });
 
+
     Route::group([
         'as'     => 'student.',
         'prefix' => 'student',
