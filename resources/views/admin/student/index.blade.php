@@ -30,7 +30,6 @@
                 </thead>
 
             </table>
-            <button class="btn btn-primary">Update</button>
 
         </div>
     </div>
@@ -41,18 +40,27 @@
          aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form action="{{route('admin.student.update')}}" method="post">
+                <form action="{{route('admin.students.update')}}" method="post">
                     <div class="modal-header">
                         <h4 class="modal-title" id="standard-modalLabel">Modal Heading</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                     </div>
                     <div class="modal-body">
 
                         @csrf
+                        @method('PUT')
                         <input type="hidden" id="id" name="id">
                         <div class="form-group">
                             <label for="sid">SID</label>
-                            <input type="number" id="sid" name="sid" class="form-control" readonly>
                         </div>
 
                         <div class="form-group">
@@ -62,17 +70,15 @@
 
                         <div class="form-group">
                             <label for="birth_date">Birth-date</label>
-                            <input type="text" id="birth_date" name="birth_date" class="form-control"
-                                   data-provide="datepicker" data-date-format="yyyy-mm-dd">
+                            <input type="text" id="birth_date" name="birth_date" class="form-control" data-provide="datepicker" data-date-format="yyyy-mm-dd">
                         </div>
                         <div class="form-group">
                             <label for="current_course">Current Course</label>
                             <input type="text" id="current_course_name" class="form-control" readonly>
-                            <input type="hidden" id="current_course_id" name="cur_course_id" class="form-control">
                         </div>
                         <div class="form-group">
                             <label for="select-course-name2">Select new course of not</label>
-                            <select id="select-course-name2" name="new_course_id" class="form-control"></select>
+                            <select id="select-course-name2" name="course_id" class="form-control"></select>
                         </div>
 
                     </div>
@@ -194,36 +200,35 @@
                 table.column(4).search($(this).val()).draw();
             });
 
-        });
+            $(document).on('click', '.btn-delete, .btn-success', function () {
 
-        $(document).on('click', '.btn-delete, .btn-success', function () {
-            console.log('1');
-            $('#select-course-name2').remove();
-            let form = $(this).parents('form');
-            $.ajax({
-                url: form.attr('action'),
-                type: 'POST',
-                dataType: 'json',
-                data: form.serialize(),
-                success: function () {
-                    $.toast({
-                        heading: 'Success',
-                        text: 'Delete successful!',
-                        position: 'top-center',
-                        showHideTransition: 'slide',
-                        icon: 'success'
-                    })
-                    table.draw();
-                },
-                error: function () {
-                    $.toast({
-                        heading: 'Error',
-                        text: 'Delete failed!',
-                        showHideTransition: 'fade',
-                        icon: 'error'
-                    })
-                }
+                let form = $(this).parents('form');
+                $.ajax({
+                    url: form.attr('action'),
+                    type: 'POST',
+                    dataType: 'json',
+                    data: form.serialize(),
+                    success: function () {
+                        $.toast({
+                            heading: 'Successful!',
+                            position: 'top-center',
+                            showHideTransition: 'slide',
+                            icon: 'success'
+                        });
+                        $("#standard-modal").modal("hide");
+                        table.draw();
+                    },
+                    error: function () {
+                        $.toast({
+                            heading: 'Failed!',
+                            showHideTransition: 'fade',
+                            icon: 'error'
+                        })
+                    },
+                });
+
             });
+
         });
 
         $(document).on('click', '.btn-primary', function () {

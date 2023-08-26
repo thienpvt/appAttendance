@@ -15,7 +15,7 @@ class UpdateStudentRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -29,22 +29,20 @@ class UpdateStudentRequest extends FormRequest
             'id'=>[
                 'required',
                 'integer',
-                Rule::unique(Student::class)->ignore($this->student)
-            ],
-            'sid'=>[
-                'required',
-                'integer',
-                Rule::unique(Student::class)->ignore($this->student)
+                Rule::unique(Student::class)->ignore($this->id)
             ],
             'name'=>[
                 'required',
                 'string',
-                Rule::unique(Student::class)->ignore($this->student)
             ],
             'birth_date'=>[
                 'required',
-                'date',
+            ],
+            'course_id'=>[
+                'nullable',
+                'integer',
             ],
         ];
     }
+
 }
