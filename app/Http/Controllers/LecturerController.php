@@ -8,6 +8,7 @@ use App\Models\Course;
 use App\Models\Subject;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
 
 class LecturerController extends Controller
@@ -16,7 +17,11 @@ class LecturerController extends Controller
     use ResponseTrait;
     public function __construct()
     {
-        View::share('title','Lecturer');
+        $routeName   = Route::currentRouteName();
+        $arr         = explode('.', $routeName);
+        $arr         = array_map('ucfirst', $arr);
+        $title       = implode(' - ', $arr);
+        View::share('title',$title);
     }
     public function index(){
         $courses=Course::get();

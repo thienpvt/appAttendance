@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ResponseTrait;
+use App\Http\Requests\StoreStudentRequest;
 use App\Http\Requests\UpdateStudentRequest;
 use App\Models\Course;
 use App\Models\Student;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
 use Yajra\DataTables\DataTables;
 
@@ -21,11 +23,12 @@ class StudentController extends Controller
     public function __construct()
     {
         $this->model = Student::query();
-        $this->table = (new Student())->getTable();
-        View::share('title', ucwords($this->table));
-        View::share('table', $this->table);
+        $routeName   = Route::currentRouteName();
+        $arr         = explode('.', $routeName);
+        $arr         = array_map('ucfirst', $arr);
+        $title       = implode(' - ', $arr);
+        View::share('title', $title);
     }
-
     public function index()
     {
         $courses=Course::get();
@@ -54,6 +57,21 @@ class StudentController extends Controller
                 }
             })
             ->make(true);
+    }
+
+    public function create()
+    {
+        return view('admin.student.create');
+    }
+
+    public function store(StoreStudentRequest $request)
+    {
+        try {
+            $this->model->create($request->validated());
+            return $this->successResponse();
+        } catch (\Exception $e) {
+            return $this->errorResponse($e->getMessage());
+        }
     }
 
     public function update(UpdateStudentRequest $request)

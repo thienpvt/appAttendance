@@ -42,7 +42,7 @@
             <div class="modal-content">
                 <form action="{{route('admin.students.update')}}" method="post">
                     <div class="modal-header">
-                        <h4 class="modal-title" id="standard-modalLabel">Modal Heading</h4>
+                        <h4 class="modal-title" id="standard-modalLabel">Update</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                         @if ($errors->any())
                             <div class="alert alert-danger">
@@ -249,10 +249,7 @@
                 error: function () {
                 }
             });
-
         });
-
-
         // $('#form-submit').submit(function (e){
         //     e.preventDefault();
         //     $.ajax({

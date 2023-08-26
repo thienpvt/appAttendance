@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Course;
 use App\Models\Student;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -15,7 +16,7 @@ class UpdateStudentRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return isAdmin();
     }
 
     /**
@@ -41,6 +42,7 @@ class UpdateStudentRequest extends FormRequest
             'course_id'=>[
                 'nullable',
                 'integer',
+                Rule::exists(Course::class,'id')
             ],
         ];
     }
