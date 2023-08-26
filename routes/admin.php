@@ -15,7 +15,7 @@
     ], static function () {
         Route::get('/', [LecturerController::class, 'index'])->name('index');
         Route::get('/create', [LecturerController::class, 'create'])->name('create');
-        Route::put('/create', [LecturerController::class, 'store'])->name('store');
+        Route::post('/create', [LecturerController::class, 'store'])->name('store');
         Route::get('/{user}', [LecturerController::class, 'show'])->name('show');
         Route::delete('/{user}', [LecturerController::class, 'destroy'])->name('destroy');
     });

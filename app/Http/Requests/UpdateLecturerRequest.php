@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateLecturerRequest extends FormRequest
 {
@@ -13,7 +15,7 @@ class UpdateLecturerRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return isAdmin()||isLecturer();
     }
 
     /**
@@ -24,7 +26,22 @@ class UpdateLecturerRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => [
+                'required',
+                'string',
+            ],
+            'password' => [
+                'nullable',
+                'string',
+            ],
+            'birth_date' => [
+                'nullable',
+                'date',
+            ],
+            'avatar' => [
+                'nullable',
+                'file',
+            ],
         ];
     }
 }

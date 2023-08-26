@@ -5,9 +5,12 @@ namespace App\Http\Controllers\Admin;
 use App\Enums\UserRoleEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\ResponseTrait;
+use App\Http\Requests\StoreLecturerRequest;
+use App\Http\Requests\UpdateLecturerRequest;
 use App\Models\Student;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
 
@@ -40,8 +43,16 @@ class LecturerController extends Controller
         return view('admin.lecturers.create');
     }
 
-    public function store( $request)
+    public function store(StoreLecturerRequest $request)
     {
+        $arr       = $request->validated();
+        $arr['avatar'] = optional($request->file('avatar'))->store('lecturers/'.$request->id);
+        $arr['password']=Hash::make($request->get('password'));
+        $lecturer= $this->model->create($arr);
+        if(!$lecturer){
+            return $this->errorResponse();
+        }
+        return $this->successResponse();
 
     }
 
@@ -52,13 +63,28 @@ class LecturerController extends Controller
         ]);
     }
 
-    public function update()
+    public function update(UpdateLecturerRequest $request,$lecturerId)
     {
+        try {
+            $arr       = $request->validated();
+            $arr['avatar'] = optional($request->file('avatar'))->store('lecturers/'.$request->id);
+            $arr['password']=optional(Hash::make($request->get('password')));
+            $lecturer = $this->model->find($lecturerId);
+            $lecturer->fill($arr);
+            $lecturer->save();
+            return $this->successResponse();
+        }catch (\Exception $e){
+            return $this->errorResponse($e->getMessage());
+        }
 
     }
 
-    public function destroy()
+    public function destroy($lecturerId)
     {
-
+        $lecturer=  $this->model->find($lecturerId)->delete();
+        if(!$lecturer) {
+            return $this->errorResponse();
+        }
+        return $this->successResponse();
     }
 }

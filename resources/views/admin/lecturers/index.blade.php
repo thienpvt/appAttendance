@@ -23,7 +23,7 @@
                             {{$lecturer->id}}
                         </td>
                         <td>
-                            <img src="" class="mr-2 rounded-circle"/>
+                            <img src="{{asset('storage/lecturers/'.$lecturer->avatar)}}" class="mr-2 rounded-circle"/>
                         </td>
                         <td>
                             {{$lecturer->email}}
