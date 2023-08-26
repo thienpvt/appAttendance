@@ -32,7 +32,7 @@ class StudentController extends Controller
     public function index()
     {
         $courses=Course::get();
-        return view('admin.student.index',[
+        return view('admin.students.index',[
             'courses'=>$courses
         ]);
     }
@@ -61,7 +61,7 @@ class StudentController extends Controller
 
     public function create()
     {
-        return view('admin.student.create');
+        return view('admin.students.create');
     }
 
     public function store(StoreStudentRequest $request)

@@ -11,7 +11,7 @@
                     </ul>
                 </div>
             @endif
-            <form id="form_create" action="{{route('admin.students.store')}}" method="get">
+            <form id="form_create" action="{{route('admin.students.store')}}" method="post">
                     @csrf
                     <div class="form-group ">
                         <label for="sid" class="col-form-label">SID</label>
