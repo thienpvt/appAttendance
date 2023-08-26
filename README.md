@@ -1,7 +1,7 @@
 # Trang web quản lý điểm danh
 ## _Dự án cá nhân
-[![Sơ đồ thực thể](https://app.diagrams.net/images/favicon-32x32.png)](https://drive.google.com/file/d/1CIiWkZ25f-Pu1gYtNiLrdV2dG-IGLmrI/view?usp=sharing)
-[![Cơ sở dữ liệu](https://i.ibb.co/S7KTZxP/google-sheets-1.png)](https://docs.google.com/spreadsheets/d/1k0TEgq5_6LldRxVwSTqpFD4Nd6u8_f6bzy8TnV7oOPo/edit?usp=sharing)
+[![Sơ đồ thực thể](https://app.diagrams.net/images/favicon-32x32.png)](https://drive.google.com/file/d/1kkqHYPu8yPyZ3RgVU3__KhLHFz15uKT1/view?usp=sharing)
+[![Cơ sở dữ liệu](https://i.ibb.co/S7KTZxP/google-sheets-1.png)](https://drive.google.com/file/d/1qzB8HY4nveFqOJKE7WbkgE1nbIlfPLnb/view?usp=sharing)
 
 ### Đối tượng sử dụng
 - Quản lí giáo vụ
