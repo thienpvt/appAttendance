@@ -27,8 +27,8 @@ B. Giảng viên
 | Kích hoạt | Người dùng ấn vào nút “Update” cuối trang |
 | Đầu vào | Tên Lớp<br>Tên môn<br>Buổi học thứ mấy<br>Id sinh viên<br>Tình trạng của sinh viên trong buổi học<br>
 | Trình tự xử lý | 1. Kết nối CSDL<br>2. Kiểm tra thông tin buổi học đã được lưu trong CSDL chưa (tạo mới nếu chưa)<br>3. Kiểm tra tình trạng điểm danh của sinh viên (nếu chưa thì tạo mới, nếu có thì cập nhật lại tình trạng điểm danh)|
-| Đầu ra | Đúng: Hiển thị trang người dùng và thông báo thành công<br>Sai: Hiển thị trang đăng nhập và thông báo thất bại |
-| Lưu ý | Kiểm tra ô nhập không được để trống bằng JavaScript |
+| Đầu ra | Hiển thị thông báo tới người dùng |
+| Lưu ý | Kiểm tra dữ liệu đầu vào tồn tại trong phạm vi cho phép |
 
 
 ## License
