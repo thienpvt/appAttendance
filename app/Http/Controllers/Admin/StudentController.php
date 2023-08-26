@@ -66,20 +66,19 @@ class StudentController extends Controller
 
     public function store(StoreStudentRequest $request)
     {
-        try {
-            $this->model->create($request->validated());
-            return $this->successResponse();
-        } catch (\Exception $e) {
-            return $this->errorResponse($e->getMessage());
+        $student = $this->model->create($request->validated());
+        if(!$student) {
+            return $this->errorResponse();
         }
+        return $this->successResponse();
     }
 
     public function update(UpdateStudentRequest $request)
     {
         try {
-            $object = $this->model->find($request->get('id'));
-            $object->fill($request->validated());
-            $object->save();
+            $student = $this->model->find($request->get('id'));
+            $student->fill($request->validated());
+            $student->save();
             return $this->successResponse();
         }catch (Exception $e){
             return $this->errorResponse($e->getMessage());
@@ -88,12 +87,13 @@ class StudentController extends Controller
 
     public function destroy($StudentID)
     {
-        try {
-            $this->model->find($StudentID)->delete();
-            return $this->successResponse();
-        } catch (Exception $e){
-            return $this->errorResponse($e->getMessage());
+
+        $student=  $this->model->find($StudentID)->delete();
+        if(!$student) {
+            return $this->errorResponse();
         }
+        return $this->successResponse();
+
     }
 
 }
